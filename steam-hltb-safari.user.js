@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Steam 游戏通关时长（Safari）
 // @namespace    local.steam.hltb.safari
-// @version      3.0.0
+// @version      3.0.1
 // @description  在 Steam 商店游戏页显示 HowLongToBeat 的通关时长
 // @match        https://store.steampowered.com/app/*
 // @match        https://store.steampowered.com/robots.txt
-// @match        https://www.howlongtobeat.com/robots.txt
+// @match        https://howlongtobeat.com/robots.txt
 // @grant        GM.getValue
 // @grant        GM.setValue
 // @grant        GM.deleteValue
@@ -26,10 +26,10 @@
 (function () {
     'use strict';
 
-    const BASE_URL = 'https://www.howlongtobeat.com';
+    const BASE_URL = 'https://howlongtobeat.com';
     // 为 true 时始终显示“复制 debug”按钮；默认只在失败或测速时显示。
     const DEBUG = false;
-    const VERSION = '3.0.0';
+    const VERSION = '3.0.1';
     const CACHE_PREFIX = 'steam-hltb-cache-';
     const CACHE_VERSION = 1;
     const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
@@ -712,7 +712,7 @@
         if (inFrame) {
             if (!onRobots) return;
             log('脚本启动', `版本=${VERSION}，iframe，站点=${location.hostname}`);
-            const run = location.hostname === 'www.howlongtobeat.com' ? runHltbFrame : runRelayFrame;
+            const run = location.hostname === 'howlongtobeat.com' ? runHltbFrame : runRelayFrame;
             run().catch(error => log('iframe 层异常', errorText(error)));
             return;
         }

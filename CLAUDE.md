@@ -10,7 +10,7 @@
 1. 读取缓存 `GM.getValue('steam-hltb-cache-<appId>')`，有效期 7 天；地址带 `#hltb-refresh` 时跳过缓存。
 2. 通过 Steam 的 `/api/appdetails?l=english` 取得英文名，清理后作为搜索词。
 3. **iframe 同站查询**（唯一的查询通道），最多尝试 2 次：
-   - Steam 页 → 隐藏 iframe `store.steampowered.com/robots.txt`（中转层）→ 隐藏 iframe `www.howlongtobeat.com/robots.txt`（HLTB 层）。
+   - Steam 页 → 隐藏 iframe `store.steampowered.com/robots.txt`（中转层）→ 隐藏 iframe `howlongtobeat.com/robots.txt`（HLTB 层）。
    - HLTB 层用同站 `fetch` 调用 `/api/search/site/init` 和 `/api/search/site`，结果写入 GM 存储 `steam-hltb-iframe-<id>-result`，Steam 页轮询读取。
    - 分阶段等待：中转层 4 秒、HLTB 层 4 秒、结果 6 秒。前两层没有运行属于结构性问题（外部条件变了），不重试，直接报“读取失败”；只有“结果超时”、限流等可恢复错误才重试。
 4. 地址带 `#hltb-bench` 时运行通道测速：连续做 6 次 iframe 完整查询，输出“通道测速结果”。
@@ -33,8 +33,8 @@
 ## iframe 方案依赖的外部条件（失效时按钮会显示“读取失败”，日志里写明卡在哪一层）
 - Steam 商店页 CSP 的 `frame-src` 允许 `'self'`；Steam 的 `robots.txt` 没有 CSP。
 - HLTB 的 `robots.txt` 没有 `X-Frame-Options`（首页等其他页面都带 `DENY`）。
-- HLTB 接受 `Referer: https://www.howlongtobeat.com/robots.txt`（只要是 HLTB 域名下的路径都可以）。
-- 用 curl 检查：`curl -sD - -o /dev/null https://www.howlongtobeat.com/robots.txt | grep -i frame`
+- HLTB 接受 `Referer: https://howlongtobeat.com/robots.txt`（只要是 HLTB 域名下的路径都可以）。
+- 用 curl 检查：`curl -sD - -o /dev/null -A "Mozilla/5.0" https://howlongtobeat.com/robots.txt | grep -i frame`（无 `www`，且需带浏览器 UA；`www.howlongtobeat.com` 已 301 重定向到 `howlongtobeat.com`）
 
 ## 排查结论（2026-09-26 ～ 2026-09-27）
 - 用 curl 或 Swift URLSession 直接请求 HLTB 接口：p50 约 0.23 秒，92 个请求没有一次卡住。所以服务端和网络都没问题。

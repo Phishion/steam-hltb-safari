@@ -9,7 +9,7 @@
 
 ## 安装
 
-1. 在 Safari 中安装 [Tampermonkey](https://apps.apple.com/app/id6738342400)，并允许它访问 `store.steampowered.com` 和 `www.howlongtobeat.com`。
+1. 在 Safari 中安装 [Tampermonkey](https://apps.apple.com/app/id6738342400)，并允许它访问 `store.steampowered.com` 和 `howlongtobeat.com`。
 2. 打开 [steam-hltb-safari.user.js](https://raw.githubusercontent.com/Phishion/steam-hltb-safari/main/steam-hltb-safari.user.js)，Tampermonkey 会弹出安装页面，点击安装即可。
 3. 打开任意 Steam 游戏页（`https://store.steampowered.com/app/...`），“社区中心”按钮左边会出现 HLTB 按钮。
 
@@ -20,7 +20,7 @@
 ```
 Steam 游戏页
  └─ 隐藏 iframe：store.steampowered.com/robots.txt   （Steam 自家页面，符合 Steam 的 CSP 限制，本身没有 CSP）
-     └─ 隐藏 iframe：www.howlongtobeat.com/robots.txt   （HLTB 唯一没有禁止被嵌入的页面）
+     └─ 隐藏 iframe：howlongtobeat.com/robots.txt   （HLTB 唯一没有禁止被嵌入的页面）
           → 脚本在这一层以 HLTB 同站身份调用搜索接口
           → 结果通过 Tampermonkey 的存储交回 Steam 页
 ```
